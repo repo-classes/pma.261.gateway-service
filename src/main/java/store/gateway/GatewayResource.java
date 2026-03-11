@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class GatewayResource {
 
     @GetMapping("/")
-    public String hello() {
-        return "Store API";
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok("Store API");
     }
 
     @GetMapping("/health-check")

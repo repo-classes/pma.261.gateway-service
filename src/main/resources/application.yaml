@@ -27,3 +27,8 @@ spring:
               predicates:
                 - Path=/accounts/**
 
+            - id: auth
+              uri: http://auth:8080 # hostname da maquina
+              predicates:
+                - Path=/auth/**
+

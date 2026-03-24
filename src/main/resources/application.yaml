@@ -32,3 +32,8 @@ spring:
               predicates:
                 - Path=/auth/**
 
+logging:
+  level:
+    root: info
+    store: debug
+    org.springframework.web: debug

@@ -81,13 +81,26 @@ public class AuthorizationFilter implements GlobalFilter {
                     final Map<String, String> map = response.getBody();
                     String idAccount = map.get("idAccount");
                     logger.debug("solve: id account: " + idAccount);
-                    // ServerWebExchange authorizated = updateRequest(exchange, idAccount);
-                    // return chain.filter(authorizated);
-                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "PAREEI AQUI");
+                    ServerWebExchange authorizated = updateRequest(exchange, idAccount, jwt);
+                    return chain.filter(authorizated);
                 } else {
                     throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
                 }
             });
     }    
-    
+
+    private ServerWebExchange updateRequest(ServerWebExchange exchange, String idAccount, String jwt) {
+        logger.debug("original headers: " + exchange.getRequest().getHeaders().toString());
+        ServerWebExchange modified = exchange.mutate()
+            .request(
+                exchange.getRequest()
+                    .mutate()
+                    .header("id-account", idAccount)
+                    .header("Authorization", "Bearer " + jwt)
+                    .build()
+            ).build();
+        logger.debug("updated headers: " + modified.getRequest().getHeaders().toString());
+        return modified;
+    }    
+
 }
